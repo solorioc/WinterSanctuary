@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="Christian Solorio, Elvin Shrestha, Ghada Bakbouk, Tess Neau">
+
+    <title>The Winter Sanctuary Volunteer Scheduling Software</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://cslab.kenyon.edu/class/ssd/solorioc/WS_Volunteer_Scheduling/WS-Logo.png">
+
+<!--Bootstrap Stylsheets-->
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+     <!--Non-Bootstrap Stylsheets-->
+         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+         <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.4/combined/css/gijgo.min.css" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="volunteer_schedule.css">
+ 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.4/combined/js/gijgo.min.js" type="text/javascript"></script>
+         <script src="volunteer_schedule.js" type="text/javascript"></script>
+</head>
+
+  <body>
+  <!--Navbar-->
+<div class="container.fluid">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="height:6vh">
+    <div>
+      <a href="#" class="pull-left"><img src="https://cslab.kenyon.edu/class/ssd/solorioc/WS_Volunteer_Scheduling/WS-Logo.png" id="Logo"  class="img-fluid"></a>
+    </div>
+    <span class="navbar-brand mb-0"><h1 style="color: white" class="navbar-font">Volunteer Schedule</h1></span>
+  </nav>
+</div>
+
+<!--Main content, underneath Navbar-->
+<div class="col-centered" style="width:97%">
+  <div class="container.fluid">
+    <div class="row">
+      <!--Left Column for calendar and search-->
+      <div class="col-md-6" style="margin-top:1vh">
+        <div class="card p-3" style="height: 86vh ">
+          <div class="row px-3 pb-1">
+            <div class="input-group" style="width:100%" id="NameSearch">
+              <input class="form-control border-secondary px-3" type="search" style="" placeholder="Search by" id="NametoSearch">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-outline-secondary" style="border-radius: 0" id="searchByName" onclick="buttonValue('searchByName');">First Name </button><button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 0px 5px 5px 0px">
+                                  <span class="sr-only">Toggle Dropdown</span>
+                              </button>
+                <ul class="dropdown-menu" id="SearchFirstLast">
+                  <li><a class="dropdown-item" href="#" onclick="changeNameSearchButtonText( 'First');changeOperation('SearchFirst');">Search First</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="changeNameSearchButtonText( 'Last');changeOperation('SearchLast');">Search Last</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row px-3 pt-1 pb-2">
+            <div class="input-group" style="width: 100%">
+              <select class="custom-select dropup" style="width:" id="DaysList">
+                                <option selected value="8">Day</option>
+                                <option value="0">Sunday</option>
+                                <option value="1">Monday</option>
+                                <option value="2">Tuesday</option>
+                                <option value="3">Wednesday</option>
+                                <option value="4">Thursday</option>
+                                <option value="5">Friday</option>
+                                <option value="6">Saturday</option>
+                                <option value="7">Backup/Fill-in</option>
+
+                            </select>
+
+              <select class="custom-select dropup" style="width:" id="ShiftsList">
+                                <option selected value="3">Shift</option>
+                                <option value="0">6:00AM - 9:00AM</option>
+                                <option value="1">6:00PM - 10:00PM</option>
+                                <option value="2">10:00PM - 6:00AM</option>
+                            </select>
+
+              <select class="custom-select dropup" style="width:" id="SidesList">
+                                <option selected value="3">Side</option>
+                                <option value="0">Men</option>
+                                <option value="1">Women</option>
+                                <option value="2">Either</option>
+
+                                </option>
+                            </select>
+
+              <div class="input-group-append">
+                <button id="searchByShift" type="button" class="btn btn-outline-secondary" style="border-radius: 0" onclick=buttonValue("searchByShift");> Search</button><button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 0px 5px 5px 0px">
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                <ul class="dropdown-menu" id="SearchOptions">
+                  <li><a class="dropdown-item" href="#" onclick="changeSearchButtonText( '');changeOperation('SearchCustom');">Search</a></li>
+                  <li><a class="dropdown-item" href="#" onclick="changeSearchButtonText( 'All');changeOperation('SearchAll');">Search All</a></li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <center>
+            <div class="responsive-calendar">
+              <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTz=0&amp;mode=AGENDA&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;src=kenyon.edu_2ugpc6mcm5s6vqg3gvhf0hbls4%40group.calendar.google.com&amp;color=%23333333&amp;ctz=America%2FNew_York"
+                style="border-width:0" width="80" height="60" frameborder="0" scrolling="no"></iframe>
+            </div>
+          </center>
+
+        </div>
+</div>
+
+      <div class="col-md-6" style="margin-top:1vh">
+        <div class="card p-3" style="height: 86vh">
+	  <div class="row">
+	    <div class="table-responsive table-sm" id="VolunteerList">
+
+
+	    </div>
+
+	  <div class="row px-3">
+	    <div class="container information" id="VolInfo">
+
+	    </div>
+	  </div>
+	  
+
+          <div class="row px-3" id="AddNewVolField" style="display:none">
+            <div class="containerAddNew" style="width: 100%">
+              <div class="form-group">
+                <div class="input-group pb-1">
+                  <input type="text" id="addfirst" class="form-control" placeholder="First Name">
+                  <input type="text" id="addlast" class="form-control" placeholder="Last Name">
+                </div>
+
+                <div class="input-group pb-1">
+                  <div style="width:50%">
+                    <button class="btn btn-light dropdown-toggle btn-outline-secondary"  style="width:99%" type="button" id="genderType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gender</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" onclick=changeGenderButtonText('Male')>Male</a>
+                      <a class="dropdown-item" onclick=changeGenderButtonText('Female')>Female</a>
+                      <a class="dropdown-item" onclick=changeGenderButtonText('Other')>Other</a>
+                    </div>
+                    </div>
+
+                  <div style="width:50%">
+                      <button class="btn btn-light dropdown-toggle btn-outline-secondary" type="button" id="sideType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  style="width:99%">Side</button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" onclick=changeSideButtonText("Men's")>Men's</a>
+                        <a class="dropdown-item" onclick=changeSideButtonText("Women's")>Women's</a>
+                        <a class="dropdown-item" onclick=changeSideButtonText('Both')>Both</a>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addaddress" class="form-control" placeholder="Address">
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addtown" class="form-control" placeholder="Town">
+                  <input type="text" id="addzip" class="form-control" placeholder="Zipcode">
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addphone" class="form-control" placeholder="Phone Number 1">
+                  <div class="input-group-append">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="phone1Type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick=buttonValue("phone1Type")>Mobile</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Mobile')>Mobile</a>
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Home')>Home</a>
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Other')>Other</a>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addphone" class="form-control" placeholder="Phone Number 2">
+                  <div class="input-group-append">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="phone2Type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick=buttonValue("phone1Type")>Mobile</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Mobile')>Mobile</a>
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Home')>Home</a>
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Other')>Other</a>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addemail1" class="form-control" placeholder="Email 1">
+                  <input type="text" id="addemail2" class="form-control" placeholder="Email 2">
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addbgcheck" class="form-control" placeholder="Background Check Year">
+                  <input type="text" id="addreliability" class="form-control" placeholder="Reliability">
+                </div>
+
+                  <input type="text" id="addotherinfo" class="form-control" placeholder="Other Info (skills, frequency, etc.)">
+
+                  <button type="button" id="add-btn" class="btn btn-default" style="float: right">Add</button>
+
+              </form>
+
+            </div>
+
+            </div>
+
+            </div>
+
+          </div> <!--Add New volutneer fields-->
+
+          <div class="row px-3" id="VolInfo">
+          </div><!--Volunteer Info field-->
+
+          <div class="row px-3" id="EditVolInfo" style="display:none">
+            <div class="containerAddNew" style="width: 100%">
+              <div class="form-group">
+                <div class="input-group pb-1">
+                  <input type="text" id="addfirst" class="form-control" placeholder="First Name">
+                  <input type="text" id="addlast" class="form-control" placeholder="Last Name">
+                </div>
+
+                <div class="input-group pb-1">
+                  <div style="width:50%">
+                    <button class="btn btn-light dropdown-toggle btn-outline-secondary"  style="width:99%" type="button" id="genderType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gender</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" onclick=changeGenderButtonText('Male')>Male</a>
+                      <a class="dropdown-item" onclick=changeGenderButtonText('Female')>Female</a>
+                      <a class="dropdown-item" onclick=changeGenderButtonText('Other')>Other</a>
+                    </div>
+                    </div>
+
+                  <div style="width:50%">
+                      <button class="btn btn-light dropdown-toggle btn-outline-secondary" type="button" id="sideType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  style="width:99%">Side</button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" onclick=changeSideButtonText("Men's")>Men's</a>
+                        <a class="dropdown-item" onclick=changeSideButtonText("Women's")>Women's</a>
+                        <a class="dropdown-item" onclick=changeSideButtonText('Both')>Both</a>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addaddress" class="form-control" placeholder="Address">
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addtown" class="form-control" placeholder="Town">
+                  <input type="text" id="addzip" class="form-control" placeholder="Zipcode">
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addphone" class="form-control" placeholder="Phone Number 1">
+                  <div class="input-group-append">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="phone1Type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick=buttonValue("phone1Type")>Mobile</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Mobile')>Mobile</a>
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Home')>Home</a>
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Other')>Other</a>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addphone" class="form-control" placeholder="Phone Number 2">
+                  <div class="input-group-append">
+                    <button class="btn btn-dark dropdown-toggle" type="button" id="phone2Type" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick=buttonValue("phone1Type")>Mobile</button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Mobile')>Mobile</a>
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Home')>Home</a>
+                      <a class="dropdown-item" onclick=changeMobileButtonText('Other')>Other</a>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addemail1" class="form-control" placeholder="Email 1">
+                  <input type="text" id="addemail2" class="form-control" placeholder="Email 2">
+                </div>
+
+                <div class="input-group pb-1">
+                  <input type="text" id="addbgcheck" class="form-control" placeholder="Background Check Year">
+                  <input type="text" id="addreliability" class="form-control" placeholder="Reliability">
+                </div>
+
+                  <input type="text" id="addotherinfo" class="form-control" placeholder="Other Info (skills, frequency, etc.)">
+
+                <button type="button" id="add-btn" class="btn btn-default" style="float: right">Add</button>
+
+              </form>
+
+            </div>
+
+            </div>
+
+            </div>
+
+
+          </div><!--Volunteer Info field-->
+
+        </div> <!--Card-->
+
+      </div><!--Right column-->
+
+    <!-- Javascript and Javascript plugins for Bootstrap-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	  <script src="/bootstrap/js/bootstrap.min.js"></script>
+	  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	  <script src="/assets/ie10-viewport-bug-workaround.js"></script>
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+
+</body>
+
+</html>
+</body>
+</html>
